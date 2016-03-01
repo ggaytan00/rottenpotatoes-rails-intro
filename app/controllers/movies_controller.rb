@@ -26,6 +26,7 @@ class MoviesController < ApplicationController
     if session[:ratings].present?
       @movies = Movie.where(rating: session[:ratings].keys)
     end
+    @movies = @movies.order(params[:sort])
 	  
   end
 
