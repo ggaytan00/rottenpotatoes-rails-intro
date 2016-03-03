@@ -27,6 +27,16 @@ class MoviesController < ApplicationController
       @movies = Movie.where(rating: session[:ratings].keys)
     end
     @movies = @movies.order(params[:sort])
+
+    if !params[:sort].present? and !params[:ratings].present? and !session[:sort].present? and session[:ratings].present?
+      redirect_to movies_path(:ratings => session[:ratings])
+    elsif !params[:sort].present? and !params[:ratings].present? and session[:sort].present? and session[:ratings].present?
+      redirect_to movies_path(:sort => session[:sort], :ratings => session[:ratings])
+    elsif params[:sort].present? and !params[:ratings].present? and session[:ratings].present?
+      redirect_to movies_path(:sort => params[:sort], :ratings => session[:ratings])
+    elsif !params[:sort].present? and params[:ratings].present? and session[:sort].present?
+      redirect_to movies_path(:ratings => params[:ratings], :sort => session[:sort])
+    end
 	  
   end
 
